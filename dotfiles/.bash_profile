@@ -30,7 +30,7 @@ export HIVE_HOME=/usr/local/hive
 export JAVA_HOME=/Library/Java/Home
 
 # Misc exports
-export LSCOLORS="Exgxcxfxcxegedabagacad"
+export LSCOLORS="Fxgxcxdxbxegedabagacad"
 export MANPATH=/opt/local/share/man:$MANPATH
 export EDITOR='vim'
 export RSPEC=true
