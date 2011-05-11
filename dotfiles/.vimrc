@@ -1,0 +1,29 @@
+set autoindent
+set hlsearch
+set laststatus=2
+set ruler
+set scrolloff=3
+set shortmess=fiIlnxtToO
+set showcmd
+set showmode
+set sidescroll=1
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set viminfo=%,'50,\"100,:100,n~/.viminfo
+set wildmenu
+set wrap
+syntax on
+set nocp
+:nmap <F1> nop
+:imap <F1> nop
+
+"ruby
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+"improve autocomplete menu color
+highlight Pmenu ctermbg=238 gui=bold
+set background=dark
+colorscheme torte
