@@ -18,7 +18,7 @@ syntax on
 set nocp
 :nmap <F1> nop
 :imap <F1> nop
-
+:nmap <C-l> :set invnumber<CR>
 "ruby
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
