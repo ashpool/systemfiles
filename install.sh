@@ -30,3 +30,7 @@ for file in $files; do
   ln -s $file ~/$basefile
 done
 
+if [ ! -f ~/.rvm/bin/rvm ]; then
+  bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
+  source ~/.bash_profile
+fi
