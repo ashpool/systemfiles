@@ -13,6 +13,7 @@ set expandtab
 set viminfo=%,'50,\"100,:100,n~/.viminfo
 set wildmenu
 set wrap
+set number
 syntax on
 set nocp
 :nmap <F1> nop
