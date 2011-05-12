@@ -41,7 +41,7 @@ export RSPEC=true
 
 # History
 export HISTCONTROL=ignoredups
-export HISTFILESIZE=1000
+export HISTFILESIZE=3000
 
 # Prompt
 export PS1='\u@\h:\w$(parse_git_branch)\$ '
