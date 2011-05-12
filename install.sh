@@ -30,6 +30,15 @@ for file in $files; do
   ln -s $file ~/$basefile
 done
 
+if [ -f ~/.gitlocal ]; then 
+  echo "Replacing gitlocal.."
+  sed -i '' -e "/# GITLOCAL/r $HOME/.gitlocal" ~/.gitconfig
+else
+  sed -i '' -e "/# GITLOCAL/r $HOME/.gitdefaults" ~/.gitconfig
+fi
+
+sed -i -e 's/^# GITLOCAL$//g' ~/.gitconfig
+
 if [ ! -f ~/.rvm/bin/rvm ]; then
   bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
   source ~/.bash_profile
