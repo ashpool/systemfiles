@@ -1,3 +1,7 @@
+#PS4='+ $(gdate "+%s.%N")\011 '
+#exec 3>&2 2>/tmp/bashstart.$$.log
+#set -x
+
 refresh () { source ~/.bash_profile; }
 pidof () { ps -Ac | egrep -i $@ | awk '{print $1}'; }
 
@@ -45,7 +49,7 @@ export RSPEC=true
 
 # History
 export HISTCONTROL=ignoredups
-export HISTFILESIZE=1000
+export HISTFILESIZE=3000
 
 # Prompt
 export PS1='\u@\h:\w$(parse_git_branch 2> /dev/null)\$ '
@@ -84,4 +88,7 @@ fi
 alias ls='ls -G'
 alias pruts='ssh wouter@pruts.nl'
 alias scpresume="rsync --partial --progress --rsh=ssh"
+
+#set +x
+#exec 2>&3 3>&-
 
