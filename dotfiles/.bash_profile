@@ -23,6 +23,14 @@ function hremote {
   ln -s /usr/local/hadoop/conf.prod /usr/local/hadoop/conf
 }
 
+function start_agent {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     chmod 600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add
+}
+
 # Hadoop stuff
 export HADOOP_HOME=/usr/local/hadoop
 export PIG_HOME=/usr/local/pig
@@ -40,7 +48,7 @@ export HISTCONTROL=ignoredups
 export HISTFILESIZE=1000
 
 # Prompt
-export PS1='\u@\h:\w$(parse_git_branch)\$ '
+export PS1='\u@\h:\w$(parse_git_branch 2> /dev/null)\$ '
 
 # Paths
 add_path ~/bin
@@ -58,17 +66,6 @@ if [ -f /opt/local/etc/bash_completion ]; then
 fi
 
 SSH_ENV="$HOME/.ssh/environment"
-
-# SSH stuff
-function start_agent {
-     echo "Initialising new SSH agent..."
-     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-     chmod 600 "${SSH_ENV}"
-     . "${SSH_ENV}" > /dev/null
-     /usr/bin/ssh-add
-}
-
-# Source SSH settings, if applicable
 
 if [ -f "${SSH_ENV}" ]; then
      . "${SSH_ENV}" > /dev/null
