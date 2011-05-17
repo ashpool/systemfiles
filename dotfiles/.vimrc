@@ -29,3 +29,7 @@ highlight Pmenu ctermbg=238 gui=bold
 set background=dark
 colorscheme ir_black
 
+set laststatus=2
+:let g:buftabs_in_statusline=1
+
+
