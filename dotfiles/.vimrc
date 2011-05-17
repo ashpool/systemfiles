@@ -1,3 +1,4 @@
+set nocompatible
 set autoindent
 set hlsearch
 set laststatus=2
@@ -15,6 +16,10 @@ set wildmenu
 set wrap
 set number
 syntax on
+filetype on
+filetype indent on
+filetype plugin on
+compiler ruby
 set nocp
 :nmap <F1> nop
 :imap <F1> nop
