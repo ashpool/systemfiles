@@ -33,7 +33,7 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
 highlight Pmenu ctermbg=238 gui=bold
 set background=dark
-colorscheme ir_black
+colorscheme molokai
 
 set laststatus=2
 :let g:buftabs_in_statusline=1

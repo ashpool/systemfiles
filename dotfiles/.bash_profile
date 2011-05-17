@@ -8,7 +8,46 @@ COL_PURPLE="\x1b[35;01m"
 COL_YELLOW="\x1b[33;01m"
 COL_GREEN="\x1b[32;01m"
 COL_RED="\x1b[31;01m"
-COL_RESET="\x1b[39;49;00m"
+COL_RESET="\[\033[0m"
+
+DULL=0
+BRIGHT=1
+
+FG_BLACK=30
+FG_RED=31
+FG_GREEN=32
+FG_YELLOW=33
+FG_BLUE=34
+FG_VIOLET=35
+FG_CYAN=36
+FG_WHITE=37
+
+FG_NULL=00
+
+BG_BLACK=40
+BG_RED=41
+BG_GREEN=42
+BG_YELLOW=43
+BG_BLUE=44
+BG_VIOLET=45
+BG_CYAN=46
+BG_WHITE=47
+
+BG_NULL=00
+
+ESC="\033"
+NORMAL="\[$ESC[m\]"
+RESET="\[$ESC[${DULL};${FG_WHITE};${BG_NULL}m\]"
+
+BLACK="\[$ESC[${DULL};${FG_BLACK}m\]"
+RED="\[$ESC[${DULL};${FG_RED}m\]"
+GREEN="\[$ESC[${DULL};${FG_GREEN}m\]"
+YELLOW="\[$ESC[${DULL};${FG_YELLOW}m\]"
+BLUE="\[$ESC[${DULL};${FG_BLUE}m\]"
+VIOLET="\[$ESC[${DULL};${FG_VIOLET}m\]"
+CYAN="\[$ESC[${DULL};${FG_CYAN}m\]"
+WHITE="\[$ESC[${DULL};${FG_WHITE}m\]"
+
 
 refresh () { source ~/.bash_profile; }
 pidof () { ps -Ac | egrep -i $@ | awk '{print $1}'; }
@@ -21,19 +60,19 @@ function add_path {
 }
 
 function parse_git_deleted {
-  [[ $(git status 2> /dev/null | grep deleted:) != "" ]] && echo -e "${COL_RED}-${COL_RESET}"
+  [[ $(git status 2> /dev/null | grep deleted:) != "" ]] && echo "${RED}-${RESET}"
 }
 
 function parse_git_added {
-  [[ $(git status 2> /dev/null | grep "Untracked files:") != "" ]] && echo -e "${COL_LIGHTBLUE}+${COL_RESET}"
+  [[ $(git status 2> /dev/null | grep "Untracked files:") != "" ]] && echo "${CYAN}+${RESET}"
 }
 
 function parse_git_modified {
-  [[ $(git status 2> /dev/null | grep modified:) != "" ]] && echo -e "${COL_YELLOW}*${COL_RESET}"
+  [[ $(git status 2> /dev/null | grep modified:) != "" ]] && echo "${YELLOW}*${RESET}"
 }
 
 function parse_git_to_be_commited {
-  [[ $(git status 2> /dev/null | grep "to be committed:") != "" ]] && echo -e "${COL_PURPLE}x${COL_RESET}"
+  [[ $(git status 2> /dev/null | grep "to be committed:") != "" ]] && echo "${VIOLET}x${COL_RESET}"
 }
 
 function parse_git_dirty {
@@ -42,7 +81,7 @@ function parse_git_dirty {
 
 function parse_git_branch {
   git symbolic-ref HEAD &> /dev/null || return
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\ (\1$(parse_git_dirty))/"
+  echo -n " ("$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* //")$(parse_git_dirty)")"
 }
 
 function hlocal {
@@ -80,7 +119,7 @@ export HISTCONTROL=ignoredups
 export HISTFILESIZE=3000
 
 # Prompt
-export PS1='\u@\h:\w$(parse_git_branch)\$ '
+export PS1="\u@\h:\w$(parse_git_branch)\$ "
 
 # Paths
 add_path ~/bin
