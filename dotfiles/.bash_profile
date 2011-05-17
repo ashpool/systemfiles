@@ -111,7 +111,7 @@ export HISTCONTROL=ignoredups
 export HISTFILESIZE=3000
 
 # Prompt
-export PS1="\u@\h:\w$(parse_git_branch)\$ "
+PROMPT_COMMAND='PS1="\u@\h:\w$(parse_git_branch)\$ "'
 
 # Paths
 add_path ~/bin
