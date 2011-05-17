@@ -32,8 +32,12 @@ function parse_git_modified {
   [[ $(git status 2> /dev/null | grep modified:) != "" ]] && echo -e "${COL_YELLOW}*${COL_RESET}"
 }
 
+function parse_git_to_be_commited {
+  [[ $(git status 2> /dev/null | grep "to be committed:") != "" ]] && echo -e "${COL_PURPLE}x${COL_RESET}"
+}
+
 function parse_git_dirty {
-    echo "$(parse_git_added)$(parse_git_modified)$(parse_git_deleted)"
+    echo "$(parse_git_added)$(parse_git_modified)$(parse_git_deleted)$(parse_git_to_be_commited)"
 }
 
 function parse_git_branch {
