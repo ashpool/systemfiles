@@ -43,6 +43,10 @@ let g:buftabs_in_statusline=1
 let g:buftabs_separator=":"
 let g:buftabs_marker_modified = "*"
 let mapleader=","
+let python_highlight_all=1
 
 :noremap <C-i> <ESC>mzgg=G''
 :noremap <C-b> :bnext!<CR>
+
+set listchars=tab:»\ ,trail:·,eol:¶
+nmap <silent> <leader>s :set nolist!<CR>
