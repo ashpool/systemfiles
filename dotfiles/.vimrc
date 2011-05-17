@@ -40,3 +40,5 @@ set laststatus=2
 
 :vnoremap ,c :s/_\([a-z]\)/\u\1/g<CR>:noh<CR>
 :vnoremap ,u :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul :noh<CR>
+:noremap <C-i> <ESC>mzgg=G''
+
