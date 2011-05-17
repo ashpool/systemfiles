@@ -11,9 +11,12 @@ set sidescroll=1
 set tabstop=2
 set shiftwidth=2
 set expandtab
-set viminfo=%,'50,\"100,:100,n~/.viminfo
 set wildmenu
 set number
+set hidden
+set ignorecase 
+set smartcase
+set title
 
 syntax on
 filetype on
@@ -36,11 +39,10 @@ set background=dark
 colorscheme molokai
 
 set laststatus=2
-:let g:buftabs_in_statusline=1
-:let g:buftabs_separator=":"
-:let g:buftabs_marker_modified = "*"
+let g:buftabs_in_statusline=1
+let g:buftabs_separator=":"
+let g:buftabs_marker_modified = "*"
+let mapleader=","
 
-:vnoremap ,c :s/_\([a-z]\)/\u\1/g<CR>:noh<CR>
-:vnoremap ,u :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul :noh<CR>
 :noremap <C-i> <ESC>mzgg=G''
 :noremap <C-b> :bnext!<CR>
