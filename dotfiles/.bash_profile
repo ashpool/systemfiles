@@ -2,14 +2,6 @@
 #exec 3>&2 2>/tmp/bashstart.$$.log
 #set -x
 
-COL_BLUE="\x1b[34;01m"
-COL_LIGHTBLUE="\x1b[36;01m"
-COL_PURPLE="\x1b[35;01m"
-COL_YELLOW="\x1b[33;01m"
-COL_GREEN="\x1b[32;01m"
-COL_RED="\x1b[31;01m"
-COL_RESET="\[\033[0m"
-
 DULL=0
 BRIGHT=1
 
@@ -72,7 +64,7 @@ function parse_git_modified {
 }
 
 function parse_git_to_be_commited {
-  [[ $(git status 2> /dev/null | grep "to be committed:") != "" ]] && echo "${VIOLET}x${COL_RESET}"
+  [[ $(git status 2> /dev/null | grep "to be committed:") != "" ]] && echo "${VIOLET}x${RESET}"
 }
 
 function parse_git_dirty {
