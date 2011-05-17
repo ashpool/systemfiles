@@ -1,0 +1,27 @@
+function parse_git_deleted {
+  [[ $(git status 2> /dev/null | grep deleted:) != "" ]] && echo "${RED}-${RESET}"
+}
+
+function parse_git_added {
+  [[ $(git status 2> /dev/null | grep "Untracked files:") != "" ]] && echo "${CYAN}+${RESET}"
+}
+
+function parse_git_modified {
+  [[ $(git status 2> /dev/null | grep modified:) != "" ]] && echo "${YELLOW}*${RESET}"
+}
+
+function parse_git_to_be_commited {
+  [[ $(git status 2> /dev/null | grep "to be committed:") != "" ]] && echo "${VIOLET}x${RESET}"
+}
+
+function parse_git_dirty {
+    echo "$(parse_git_added)$(parse_git_modified)$(parse_git_deleted)$(parse_git_to_be_commited)"
+}
+
+function parse_git_branch {
+  git symbolic-ref HEAD &> /dev/null || return
+  echo -n " ("$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* //")$(parse_git_dirty)")"
+}
+
+PROMPT_COMMAND='PS1="\u@\h:\w$(parse_git_branch)\$ "'
+

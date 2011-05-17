@@ -1,0 +1,16 @@
+# Hadoop stuff
+export HADOOP_HOME=/usr/local/hadoop
+export PIG_HOME=/usr/local/pig
+export HIVE_HOME=/usr/local/hive
+export JAVA_HOME=/Library/Java/Home
+
+# Misc exports
+export LSCOLORS="Fxgxcxdxbxegedabagacad"
+export MANPATH=/opt/local/share/man:$MANPATH
+export EDITOR='vim'
+export RSPEC=true
+
+# History
+export HISTCONTROL=ignoredups
+export HISTFILESIZE=3000
+

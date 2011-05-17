@@ -37,6 +37,8 @@ colorscheme molokai
 
 set laststatus=2
 :let g:buftabs_in_statusline=1
+:let g:buftabs_separator=":"
+:let g:buftabs_marker_modified = "*"
 
 :vnoremap ,c :s/_\([a-z]\)/\u\1/g<CR>:noh<CR>
 :vnoremap ,u :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul :noh<CR>

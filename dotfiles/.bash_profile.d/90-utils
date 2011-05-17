@@ -1,0 +1,17 @@
+function git_diff() {
+  git diff --no-ext-diff -w "$@" | vim -R -
+}
+
+function hlocal() {
+  rm /usr/local/hadoop/conf
+  ln -s /usr/local/hadoop/conf.local /usr/local/hadoop/conf
+}
+
+function hremote() {
+  rm /usr/local/hadoop/conf
+  ln -s /usr/local/hadoop/conf.prod /usr/local/hadoop/conf
+}
+
+refresh () { source ~/.bash_profile; }
+pidof () { ps -Ac | egrep -i $@ | awk '{print $1}'; }
+
