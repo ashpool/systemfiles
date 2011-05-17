@@ -50,3 +50,4 @@ let python_highlight_all=1
 
 set listchars=tab:»\ ,trail:·,eol:¶
 nmap <silent> <leader>s :set nolist!<CR>
+au FileType python setl shiftwidth=4 tabstop=4
