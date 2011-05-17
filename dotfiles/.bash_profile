@@ -37,6 +37,7 @@ function parse_git_dirty {
 }
 
 function parse_git_branch {
+  git symbolic-ref HEAD 2> /dev/null) || return
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\ (\1$(parse_git_dirty))/"
 }
 
