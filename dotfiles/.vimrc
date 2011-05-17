@@ -1,4 +1,5 @@
 set nocompatible
+set nowrap
 set autoindent
 set hlsearch
 set laststatus=2

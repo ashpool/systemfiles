@@ -2,6 +2,14 @@
 #exec 3>&2 2>/tmp/bashstart.$$.log
 #set -x
 
+COL_BLUE="\x1b[34;01m"
+COL_LIGHTBLUE="\x1b[36;01m"
+COL_PURPLE="\x1b[35;01m"
+COL_YELLOW="\x1b[33;01m"
+COL_GREEN="\x1b[32;01m"
+COL_RED="\x1b[31;01m"
+COL_RESET="\x1b[39;49;00m"
+
 refresh () { source ~/.bash_profile; }
 pidof () { ps -Ac | egrep -i $@ | awk '{print $1}'; }
 
@@ -12,9 +20,24 @@ function add_path {
   fi
 }
 
+function parse_git_deleted {
+  [[ $(git status 2> /dev/null | grep deleted:) != "" ]] && echo -e "${COL_RED}-${COL_RESET}"
+}
+
+function parse_git_added {
+  [[ $(git status 2> /dev/null | grep "Untracked files:") != "" ]] && echo -e "${COL_LIGHTBLUE}+${COL_RESET}"
+}
+
+function parse_git_modified {
+  [[ $(git status 2> /dev/null | grep modified:) != "" ]] && echo -e "${COL_YELLOW}*${COL_RESET}"
+}
+
+function parse_git_dirty {
+    echo "$(parse_git_added)$(parse_git_modified)$(parse_git_deleted)"
+}
+
 function parse_git_branch {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo " ("${ref#refs/heads/}")" 
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\ (\1$(parse_git_dirty))/"
 }
 
 function hlocal {
@@ -52,7 +75,7 @@ export HISTCONTROL=ignoredups
 export HISTFILESIZE=3000
 
 # Prompt
-export PS1='\u@\h:\w$(parse_git_branch 2> /dev/null)\$ '
+export PS1='\u@\h:\w$(parse_git_branch)\$ '
 
 # Paths
 add_path ~/bin
