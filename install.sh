@@ -43,7 +43,7 @@ for file in $files; do
   fi 
 
   echo "   [LINK] $file ==> ~/$basefile"
-  ln -s $file ~/$basefile
+  ln -sf $file ~/$basefile
   echo -e
   ((linked++))
 done
