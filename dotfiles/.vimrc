@@ -19,6 +19,8 @@ set wildmenu
 set tabstop=2
 set shiftwidth=2
 
+set completeopt=preview
+
 syntax on
 filetype on
 filetype indent on
