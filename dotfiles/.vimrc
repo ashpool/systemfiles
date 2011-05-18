@@ -31,8 +31,8 @@ autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType python setl shiftwidth=4 tabstop=4
 
-colorscheme molokai
 set background=dark
+colorscheme molokai
 
 set laststatus=2
 let g:buftabs_in_statusline=1
