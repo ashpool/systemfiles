@@ -35,6 +35,12 @@ set background=dark
 colorscheme molokai
 
 set laststatus=2
+set statusline=
+set statusline+=%f\ " file name
+set statusline+=%h%1*%m%r%w%0* " flag
+set statusline+=%= " right align
+set statusline+=%-14.(%l,%c%V%)\ %<%P " offset
+
 let g:buftabs_in_statusline=1
 let g:buftabs_separator=":"
 let g:buftabs_marker_modified = "*"
@@ -45,6 +51,6 @@ noremap <C-i> <ESC>mzgg=G''
 noremap <C-b> :bnext!<CR>
 noremap <C-l> :set invnumber<CR>
 
-set listchars=tab:»\ ,trail:·,eol:¶
+"set listchars=tab:»\ ,trail:·,eol:¶
 nmap <silent> <leader>s :set nolist!<CR>
 
