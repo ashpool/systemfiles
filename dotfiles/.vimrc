@@ -9,7 +9,7 @@ Bundle 'molokai'
 Bundle 'snipMate'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'matchit.zip'
-Bundle 'scrooloose/nerdcommenter'
+Bundle 'tcomment'
 Bundle 'scrooloose/nerdtree'
 Bundle 'python_match.vim'
 Bundle 'buftabs'
@@ -17,6 +17,7 @@ Bundle 'scratch'
 Bundle 'tpope/vim-surround'
 Bundle 'taglist.vim'
 Bundle 'wouterdebie/python.vim--Vasiliev'
+Bundle "git://git.wincent.com/command-t.git"
 
 filetype plugin indent on
 
@@ -80,4 +81,5 @@ noremap <C-l> :set invnumber<CR>
 
 "set listchars=tab:»\ ,trail:·,eol:¶
 nmap <silent> <leader>s :set nolist!<CR>
+let g:CommandTMatchWindowAtTop=1 " show window at top
 
