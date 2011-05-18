@@ -1,9 +1,30 @@
+" vundler stuff
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'molokai'
+Bundle 'snipMate'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'matchit.zip'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'python_match.vim'
+Bundle 'buftabs'
+Bundle 'scratch'
+Bundle 'tpope/vim-surround'
+Bundle 'taglist.vim'
+Bundle 'wouterdebie/python.vim--Vasiliev'
+
+filetype plugin indent on
+
 set autoindent
 set expandtab
 set hidden
 set hlsearch
 set ignorecase 
-set nocompatible
 set nowrap
 set number
 set ruler
@@ -34,7 +55,11 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType python setl shiftwidth=4 tabstop=4
 
 set background=dark
-colorscheme molokai
+try
+  colorscheme molokai
+catch
+  colorscheme default
+endtry
 
 set laststatus=2
 set statusline=

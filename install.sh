@@ -68,5 +68,15 @@ if [ ! -f ~/.rvm/bin/rvm ]; then
   echo -e 
 fi
 
+if [ ! -d ~/.vim/bundle/vundle ]; then
+  echo "== [VUNDLE] installing"
+  mkdir -p ~/.vim/bundle
+  git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+  echo -e
+fi
+
+echo "== [VIM] Vundle update"
+vim +BundleInstall! +BundleClean +q
+
 echo "$skipped skipped, $linked linked, $backedup backed up, $dircreated dirs created"
 
