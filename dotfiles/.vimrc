@@ -75,11 +75,16 @@ let g:buftabs_marker_modified = "*"
 let mapleader=","
 let python_highlight_all=1
 
-noremap <C-i> <ESC>mzgg=G''
+noremap <leader>i mzgg=G''
 noremap <C-b> :bnext!<CR>
 noremap <C-l> :set invnumber<CR>
+noremap <C-i> ==j
 
-"set listchars=tab:»\ ,trail:·,eol:¶
+try
+  set listchars=tab:»\ ,trail:·,eol:¶
+catch
+endtry
+
 nmap <silent> <leader>s :set nolist!<CR>
 let g:CommandTMatchWindowAtTop=1 " show window at top
 
