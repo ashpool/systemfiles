@@ -40,6 +40,7 @@ set wildmenu
 
 set tabstop=2
 set shiftwidth=2
+set smarttab
 
 set completeopt=preview
 
