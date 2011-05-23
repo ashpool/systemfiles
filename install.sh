@@ -1,4 +1,25 @@
 #!/bin/bash
+
+do_vim=true
+do_backup=true
+
+while getopts ":nhb" opt; do
+  case $opt in
+    n)
+      unset do_vim
+      ;;
+    b)
+      unset do_backup
+      ;;
+    h)
+      echo "Usage: $0 <options>"
+      echo -e "  -b\tSkip backups"
+      echo -e "  -n\tSkip vim bundle install"
+      exit
+      ;;
+  esac
+done
+
 cd `dirname $0`
 
 dotfilepath="$PWD/dotfiles"
@@ -24,16 +45,18 @@ for file in $files; do
     continue
   fi
 
-  if [ -f $homefile ]; then
-    backuppath="$PWD/backups/$basefile-$now"
-    mkdir -p `dirname $backuppath`
-    
-    echo "   [BACKUP] $homefile to $backuppath"
-    cp $homefile $backuppath
+  if [ $backup ]; then
+    if [ -f $homefile ]; then
+      backuppath="$PWD/backups/$basefile-$now"
+      mkdir -p `dirname $backuppath`
+      
+      echo "   [BACKUP] $homefile to $backuppath"
+      cp $homefile $backuppath
 
-    echo "   [REMOVE] $homefile"
-    rm -f $homefile
-    ((backedup++))
+      echo "   [REMOVE] $homefile"
+      rm -f $homefile
+      ((backedup++))
+    fi
   fi
 
   if [ ! -d `dirname $homefile` ]; then
@@ -75,9 +98,11 @@ if [ ! -d ~/.vim/bundle/vundle ]; then
   echo -e
 fi
 
-echo "== [VIM] Vundle update"
-vim +BundleInstall! +BundleClean +q
-echo -e 
+if [ $do_vim ]; then
+  echo "== [VIM] Vundle update"
+  vim +BundleInstall! +BundleClean +q
+  echo -e 
+fi
 
 echo "== [BASH] Reloading"
 source $HOME/.bash_profile
