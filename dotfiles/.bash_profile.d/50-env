@@ -14,3 +14,8 @@ export RSPEC=true
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=3000
 
+# Completion
+if [ ! $BASH_COMPLETION ]; then
+  BASH_COMPLETION=$HOME/bin/bash_completion
+  BASH_COMPLETION_DIR=$HOME/.bash_completion.d
+fi

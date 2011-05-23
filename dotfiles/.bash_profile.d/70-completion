@@ -1,4 +1,4 @@
 # Bash completion
-if [ -f /opt/local/etc/bash_completion ]; then
-  . /opt/local/etc/bash_completion
+if [ -f $HOME/bin/bash_completion ]; then
+  . $HOME/bin/bash_completion
 fi
