@@ -18,6 +18,7 @@ Bundle 'tpope/vim-surround'
 Bundle 'taglist.vim'
 Bundle 'wouterdebie/python.vim--Vasiliev'
 Bundle "git://git.wincent.com/command-t.git"
+Bundle 'blueyed/vim-autoclose'
 
 filetype plugin indent on
 
