@@ -1,3 +1,3 @@
-alias ls='ls -G'
+alias ls='$HOME/bin/ls -G'
 alias pruts='ssh wouter@pruts.nl'
 alias scpresume="rsync --partial --progress --rsh=ssh"
