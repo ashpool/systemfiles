@@ -27,6 +27,10 @@ function hcdh3() {
   ln -sf /usr/local/cdh3u0/hadoop /usr/local/hadoop
 }
 
+function hinfo(){
+  hwhat
+  hwhere
+}
 
 refresh () { source ~/.bash_profile; }
 pidof () { ps -Ac | egrep -i $@ | awk '{print $1}'; }
