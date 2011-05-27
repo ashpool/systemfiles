@@ -5,7 +5,7 @@ function add_path {
   fi
 }
 
-add_path ~/bin
+add_path $HOME/bin
 add_path /usr/local/bin
 add_path /usr/local/sbin
 add_path /opt/local/bin

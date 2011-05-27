@@ -2,15 +2,31 @@ function git_diff() {
   git diff --no-ext-diff -w "$@" | vim -R -
 }
 
+function hwhere() {
+  readlink /usr/local/hadoop/conf
+}
+
+function hwhat() {
+  readlink /usr/local/hadoop
+}
+
 function hlocal() {
   rm /usr/local/hadoop/conf
-  ln -s /usr/local/hadoop/conf.local /usr/local/hadoop/conf
+  ln -sf /usr/local/hadoop/conf.local /usr/local/hadoop/conf
+  hwhere
 }
 
 function hremote() {
   rm /usr/local/hadoop/conf
-  ln -s /usr/local/hadoop/conf.prod /usr/local/hadoop/conf
+  ln -sf /usr/local/hadoop/conf.prod /usr/local/hadoop/conf
+  hwhere
 }
+
+function hcdh3() {
+  rm /usr/local/hadoop
+  ln -sf /usr/local/cdh3u0/hadoop /usr/local/hadoop
+}
+
 
 refresh () { source ~/.bash_profile; }
 pidof () { ps -Ac | egrep -i $@ | awk '{print $1}'; }
