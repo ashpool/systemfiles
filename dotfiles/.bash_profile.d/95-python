@@ -1,6 +1,5 @@
 function add_pythonpath {
   local dir=$1
-  echo $dir
   if [ -d $dir ]; then
     PYTHONPATH="$dir:${PYTHONPATH}"
   fi
