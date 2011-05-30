@@ -23,8 +23,12 @@ function hremote() {
 }
 
 function hcdh3() {
-  rm /usr/local/hadoop
-  ln -sf /usr/local/cdh3u0/hadoop /usr/local/hadoop
+  hadoop_stuff="hadoop-0.20.2 pig-0.8.0 hive-0.7.0 hbase-0.90.1"
+  for i in $hadoop_stuff; do
+    sw=$(echo $i | cut -d'-' -f 1)
+    rm -f /usr/local/$sw
+    ln -sf /usr/local/cdh3u0/$i-cdh3u0/ /usr/local/$sw
+  done
 }
 
 function hinfo(){
