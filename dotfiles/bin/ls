@@ -3,11 +3,17 @@
 ls_path=${@: -1}
 options=$2
 
+if [ $OSTYPE == "linux-gnu" ]; then
+  default_flags="--color"
+else
+  default_flags="-G"
+fi
+
 if [[ $ls_path == hdfs* ]]; then
   hadoop fs -ls $ls_path
 elif [[ $options == "-X" ]]; then
   hadoop fs -ls $ls_path
 else
-  /bin/ls -G $@
+  /bin/ls $default_flags $@
 fi
 

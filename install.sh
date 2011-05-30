@@ -2,6 +2,7 @@
 
 do_vim=true
 do_backup=true
+do_rvm=true
 
 while getopts ":nhb" opt; do
   case $opt in
@@ -11,10 +12,14 @@ while getopts ":nhb" opt; do
     b)
       unset do_backup
       ;;
+    r)
+      unset do_rvm
+      ;;
     h)
       echo "Usage: $0 <options>"
       echo -e "  -b\tSkip backups"
       echo -e "  -n\tSkip vim bundle install"
+      echo -e "  -r\tSkip rvm install"
       exit
       ;;
   esac
@@ -85,10 +90,12 @@ sed -i -e 's/^# GITLOCAL$//g' $HOME/.gitconfig
 
 echo -e
 
-if [ ! -f $HOME/.rvm/bin/rvm ]; then
-  echo "== [RVM] installing"
-  bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
-  echo -e 
+if [ $do_rvm ]; then 
+  if [ ! -f $HOME/.rvm/bin/rvm ]; then
+    echo "== [RVM] installing"
+    bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
+    echo -e 
+  fi
 fi
 
 if [ ! -d ~/.vim/bundle/vundle ]; then

@@ -2,8 +2,8 @@
 #exec 3>&2 2>/tmp/bashstart.$$.log
 #set -x
 
-for module in $(ls ~/.bash_profile.d/ | sort); do
-  source ~/.bash_profile.d/$module
+for module in $(find ~/.bash_profile.d ! -type d | sort); do
+  source $module
 done
 
 #set +x
