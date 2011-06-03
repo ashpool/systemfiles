@@ -1,8 +1,14 @@
 # Hadoop stuff
-export HADOOP_HOME=/usr/local/hadoop
-export PIG_HOME=/usr/local/pig
+export HADOOP_VERSION=
+export HADOOP_HOME=~/bin/hadoop
+export PIG_VERSION=0.8.0-CDH3B4
+export PIG_HOME=~/bin/pig-$PIG_VERSION
+export PIG_JAR=$PIG_HOME/pig-$PIG_VERSION.jar
 export HIVE_HOME=/usr/local/hive
 export JAVA_HOME=/Library/Java/Home
+
+# Mysql
+export MYSQL_HOME=/usr/local/mysql
 
 # Misc exports
 export LSCOLORS="Fxgxcxdxbxegedabagacad"
