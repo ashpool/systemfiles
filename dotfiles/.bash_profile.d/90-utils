@@ -3,22 +3,22 @@ function git_diff() {
 }
 
 function hwhere() {
-  readlink /usr/local/hadoop/conf
+  readlink $HADOOP_HOME/conf
 }
 
 function hwhat() {
-  readlink /usr/local/hadoop
+  readlink $HADOOP_HOME
 }
 
 function hlocal() {
-  rm /usr/local/hadoop/conf
-  ln -sf /usr/local/hadoop/conf.local /usr/local/hadoop/conf
+  rm $HADOOP_HOME/conf
+  ln -sf $HADOOP_HOME/conf.local $HADOOP_HOME/conf
   hwhere
 }
 
 function hremote() {
-  rm /usr/local/hadoop/conf
-  ln -sf /usr/local/hadoop/conf.prod /usr/local/hadoop/conf
+  rm $HADOOP_HOME/conf
+  ln -sf $HADOOP_HOME/conf.prod $HADOOP_HOME/conf
   hwhere
 }
 

@@ -1,5 +1,5 @@
 # Hadoop stuff
-export HADOOP_VERSION=
+export HADOOP_VERSION=0.20.2+CDH3B4
 export HADOOP_HOME=~/bin/hadoop
 export PIG_VERSION=0.8.0-CDH3B4
 export PIG_HOME=~/bin/pig-$PIG_VERSION
