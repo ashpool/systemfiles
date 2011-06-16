@@ -8,15 +8,14 @@ Bundle 'gmarik/vundle'
 Bundle 'molokai'
 Bundle 'snipMate'
 Bundle 'vim-ruby/vim-ruby'
+Bundle "rails.vim"
 Bundle 'matchit.zip'
 Bundle 'tcomment'
 Bundle 'scrooloose/nerdtree'
-Bundle 'python_match.vim'
 Bundle 'buftabs'
 Bundle 'scratch'
 Bundle 'tpope/vim-surround'
 Bundle 'taglist.vim'
-Bundle 'wouterdebie/python.vim--Vasiliev'
 Bundle 'blueyed/vim-autoclose'
 
 filetype plugin indent on
