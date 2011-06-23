@@ -1,3 +1,4 @@
 alias ls='$HOME/bin/ls -G'
-alias pruts='ssh wouter@pruts.nl'
 alias scpresume="rsync --partial --progress --rsh=ssh"
+alias mystart="sudo /Library/StartupItems/MySQLCOM/MySQLCOM start"
+alias mystop="sudo mysqladmin shutdown"
