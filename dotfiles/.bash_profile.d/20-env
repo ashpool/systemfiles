@@ -19,7 +19,7 @@ export RSPEC=true
 
 # History
 export HISTCONTROL=ignoredups
-export HISTFILESIZE=3000
+export HISTFILESIZE=10000
 
 # Completion
 if [ ! $BASH_COMPLETION ]; then
