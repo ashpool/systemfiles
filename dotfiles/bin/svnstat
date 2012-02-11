@@ -386,7 +386,7 @@ else:
 #setup_email_hash()
 
 
-# figure out if we are running git log or using stdin
+# figure out if we are running svn log or using stdin
 if not options.pipe:
     #svn_args = "-M --no-merges -p"
     svn_args = ""
