@@ -4,7 +4,6 @@
 #
 # the svnstat program parses the output of svn log and reports on the
 # changes it finds. It gives a summary of commits done by specific people
-# including the number of lines changed.
 #
 # usage svnstat [options] 
 #
@@ -24,7 +23,6 @@ authors = {}
 # interest
 involved = {}
 involved_hit = {}
-
 email_hash = {}
 
 # we want to send output through less, but only when we have more than
@@ -132,17 +130,8 @@ def should_include_person(line):
 
     return False
 
-
-
-# returns false because theres no concept of tags in svn. This one needs refactoring.
-def is_tag(line):
-    false
-
-#def is_tag(line):
-#    x = line.lstrip()
-#    return (x.startswith('Author') or x.startswith('Signed-off-by') or
- #           x.startswith('Reported-by') or x.startswith('Tested-by') or
-#            x.startswith('Acked-by'))
+def is_log_entry(lines):
+   return len(lines) >= 2
 
 # this does all the work of deciding if we want to include a given
 # commit, and adding it into the hash tables if it matches our
@@ -150,21 +139,20 @@ def is_tag(line):
 # appropriate.
 #
 def add_commit(lines, added, removed, diffpipe):
-    if len(lines) < 2:
+    if not is_log_entry(lines):
         return
 
     words = lines[1].split()
     revision = words[0].rstrip()
     orig_author = words[2].rstrip()
-    commit = revision
-    commit += " "
-    commit += " ".join(words[4:]) 
-    
+    timestamp = " ".join(words[4:7]).lstrip("|")
+    commit_message = ""	
 
     if len(lines) >= 3:
-        commit_message = lines[3]
-        commit += " " + commit_message
+        commit_message = "".ljust(46, " ").join(lines[3:]) 
 
+    commit = "%s %s %s" % (revision.ljust(7, " "), timestamp.ljust(28, " "), commit_message)
+    
     author = orig_author.lower()
 
     if should_include_person(author):
@@ -187,8 +175,6 @@ def add_commit(lines, added, removed, diffpipe):
         ar[3].append(commit)
        
 
-
-
 # fire up diffstat, writing output to a temp file.  Return the
 # tmp file and the diffstat pipe.
 #
@@ -200,6 +186,7 @@ def start_diffstat():
     if not pipe:
         os.stderr.write("failed to create diff pipe\n")
     return (fp, pipe)
+
 
 # close the diffstat pipe and print the output
 #
@@ -230,6 +217,7 @@ def print_diffstat(fp, pipe):
     print last
     fp.close()
 
+
 def setup_email_hash():
     global email_hash
 
@@ -257,9 +245,11 @@ def setup_email_hash():
         name = short_name(line)
         email_hash[name] = 1
 
+
 def run_svn_log(flags, args):
     fp = os.popen("svn log %s %s" % (flags, " ".join(args)))
     return fp
+
 
 # does all the sorting and other setup to actually print the commits
 def print_commits(commits):
@@ -269,36 +259,23 @@ def print_commits(commits):
     # don't print a line count when there is only one commit
     should_lc = not options.no_commit_line_counts and len(commits) > 1
 
-    if options.ingo:
-        # --ingo gives us an inverse xmas tree
-        sort = {}
-        for commit in commits:
-            line = "%s (+%d/-%d)" % (commit[0][0], commit[1], commit[2])
-            sort.setdefault(len(line), []).append(commit)
-        keys = sort.keys()
-        keys.sort()
-        commits = []
-        for x in keys.__reversed__():
-            ar = sort[x]
-            for c in ar:
-                commits.append(c)
-    elif not options.no_sort:
-        # the default is to sort based on the first word in the commit
-        # description
-        sort = {}
-        for commit in commits:
-            line = commit[0][0].lstrip()
-            idx = line.find(' ')
-            if (idx > 0):
-                line = line[:idx]
-            sort.setdefault(line, []).append(commit)
-        keys = sort.keys()
-        keys.sort()
-        commits = []
-        for x in keys:
-            ar = sort[x]
-            for c in ar:
-                commits.append(c)
+    # sort based on revision
+    sort = {}
+    for commit in commits:
+	
+        line = commit[0][0].lstrip()
+
+        idx = line.find(' ')
+        if (idx > 0):
+            line = int(line[:idx].lstrip("r"))
+        sort.setdefault(line, []).append(commit)
+    keys = sort.keys()
+    keys.sort()
+    commits = []
+    for x in keys:
+        ar = sort[x]
+        for c in ar:
+            commits.append(c)
 
     count = 0
     for commit in commits:
@@ -312,8 +289,7 @@ def print_commits(commits):
             print >> output, "%s" % str1
             continue
 
-        str2 = " (+%d/-%d)" % (commit[1], commit[2])
-        print >> output, "%s%s" % (str1, str2)
+        print >> output, "%s" % (str1)
 
         # there are extra lines in the commit when we
         # were run with -c
@@ -330,10 +306,18 @@ def print_commits(commits):
 usage = "usage: %prog [options]"
 parser = OptionParser(usage=usage)
 
-parser.add_option("-R", "--revision", help="-r [--revision] arg (svn help log - for more details)", default="")
-parser.add_option("-b", "--stop-on-copy", help="do not cross copies while traversing history", default=False, action="store_true")
-
-parser.add_option("-r", "--report-header", help="Report header", default="")
+parser.add_option("-R", "--revision", 
+                  help="-r [--revision] arg (svn help log - for more details)", 
+                  default="")
+parser.add_option("-b", "--stop-on-copy", 
+                  help="do not cross copies while traversing history", 
+                  default=False, action="store_true")
+parser.add_option("-V", "--verbose", 
+				                  help="print extra information", 
+				                  default=False, action="store_true")
+parser.add_option("-r", "--report-header", 
+                  help="Report header", 
+                  default="")
 parser.add_option("-f", "--full-name", help="Include full email in report",
                   default=False, action="store_true")
 parser.add_option("-e", "--email", help="Email addresses of interest",
@@ -362,8 +346,6 @@ parser.add_option("-S", "--no-sort", help="Don't sort output",
 
 (options,args) = parser.parse_args()
 
-
-
 if options.version:
     sys.stderr.write("%s\n" % VERSION)
     sys.exit(0)
@@ -391,12 +373,13 @@ if not options.pipe:
     #svn_args = "-M --no-merges -p"
     svn_args = ""
     if options.revision:
-        svn_args += " -r "
+        svn_args += " --revision "
         svn_args += options.revision 
     if options.stop_on_copy:
         svn_args += " --stop-on-copy"
+    if options.verbose:
+        svn_args += "--verbose"
 
- 
     input = run_svn_log(svn_args, args)
 else:
     input = sys.stdin
@@ -461,7 +444,7 @@ for x in names:
     else:
         name = ar[4]
 
-    print >> output, "%s (%d) commits (+%d/-%d):" % (name, ar[0], ar[1], ar[2])
+    print >> output, "%s (%d) commits:" % (name, ar[0])
     total_commits += len(ar[3])
 
     print_commits(ar[3])
@@ -470,8 +453,7 @@ for x in names:
 
 
 if not options.diffstat:
-    print >> output, "Total: (%d) commits (+%d/-%d)" % (total_commits,
-                      total_added, total_removed)
+    print >> output, "Total: (%d) commits" % (total_commits)
 else:
     print >> output, "Total: (%d) commits" % total_commits
 
