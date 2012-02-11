@@ -306,8 +306,17 @@ def print_commits(commits):
 usage = "usage: %prog [options]"
 parser = OptionParser(usage=usage)
 
+revision_help = """-r [--revision] arg      : ARG (some commands also take ARG1:ARG2 range)
+                           A revision argument can be one of:
+                              NUMBER       revision number
+                              "{" DATE "}" revision at start of the date
+                              "HEAD"       latest in repository
+                              "BASE"       base rev of item's working copy
+                              "COMMITTED"  last commit at or before BASE
+                              "PREV"       revision just before COMMITTED"""
+
 parser.add_option("-R", "--revision", 
-                  help="-r [--revision] arg (svn help log - for more details)", 
+                  help = revision_help, 
                   default="")
 parser.add_option("-b", "--stop-on-copy", 
                   help="do not cross copies while traversing history", 
@@ -334,8 +343,6 @@ parser.add_option("-d", "--diffstat", help="Print diffstat",
                   default=False, action="store_true")
 parser.add_option("-p", "--pipe",
                   help="Read from stdin instead of starting svn log",
-                  default=False, action="store_true")
-parser.add_option("-i", "--ingo", help="Inverse xmas output",
                   default=False, action="store_true")
 parser.add_option("-l", "--limit", help="Limit output per person",
                   default=0, type="int")
@@ -456,9 +463,6 @@ if not options.diffstat:
     print >> output, "Total: (%d) commits" % (total_commits)
 else:
     print >> output, "Total: (%d) commits" % total_commits
-
-if options.other_commits:
-    print >> output, "Other involvement: %d commits" % other_commits
 
 print >> output, ""
 print_diffstat(difffp, diffpipe)
