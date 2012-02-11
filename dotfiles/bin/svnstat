@@ -1,22 +1,20 @@
 #!/usr/bin/env python
 
-# the gistat program parses the output of git log and reports on the
-# changes it finds.  It gives a summary of commits done by specific people
-# including the number of lines changed and the number of changes they made.
+# svnstat is a port of gitstat https://github.com/wouterdebie/systemfiles/blob/master/dotfiles/bin/gitstat
 #
-# usage gitstat [options] <git rev range>
+# the svnstat program parses the output of svn log and reports on the
+# changes it finds. It gives a summary of commits done by specific people
+# including the number of lines changed.
 #
-
-
-
-
+# usage svnstat [options] 
+#
 import sys
 import os
 from optparse import OptionParser
 
 VERSION="svnstat 0.1"
 
-# current commit we're reading from git log
+# current commit we're reading from svn log
 cur = []
 
 # records total commits per author along with lines changed
@@ -136,7 +134,7 @@ def should_include_person(line):
 
 
 
-# returns true if a given line has a tag we use for reporting.
+# returns false because theres no concept of tags in svn. This one needs refactoring.
 def is_tag(line):
     false
 
@@ -151,16 +149,6 @@ def is_tag(line):
 # criteria.  It also feeds the commit to diffstat if
 # appropriate.
 #
-
-#commit 29f5e5c8125d1e98f6541faac5974956420cc1ac
-#Author: Wouter de Bie <wouter@evenflow.se>
-#Date:   Fri Jun 3 07:53:48 2011 +0200
-
-#------------------------------------------------------------------------
-#r9 | jerdfelt | 2000-02-15 01:19:09 +0100 (Tis, 15 Feb 2000) | 2 lines
-#
-#Add usb.c, update configure.in
-
 def add_commit(lines, added, removed, diffpipe):
     if len(lines) < 2:
         return
@@ -168,40 +156,17 @@ def add_commit(lines, added, removed, diffpipe):
     words = lines[1].split()
     revision = words[0].rstrip()
     orig_author = words[2].rstrip()
-    commit = " ".join(words[4:]) 
+    commit = revision
+    commit += " "
+    commit += " ".join(words[4:]) 
+    
 
     if len(lines) >= 3:
-        commit += " " + lines[3]
+        commit_message = lines[3]
+        commit += " " + commit_message
 
     author = orig_author.lower()
-#    if options.other_commits:
-#        # check for sob and other tags
-#        for x in lines[6:]:
-#            # break out when we hit the start of the diff
-#            if x.startswith('+++ '):
-#                break
-#
-#            if is_tag(x) and should_include_person(x):
-#                # create an involved record for this commit
-#                idx = x.find(':') + 2
-#                orig_tag = x[idx:].rstrip()
-#                tag = orig_tag.lower()
-#
-#                if tag != author:
-#                    # don't add a SOB entry when we were also the author
-#                    hit = sha + author
-#                    if hit not in involved_hit:
-#                        # ignore entries where someone signed and acked
-#                        # or was generally there more than once
-#                        ar = involved.setdefault(tag,
-#                                             [[], name_from_email(orig_tag)])
-#
-#                        # pull out the type of tag and add it to the
-#                        # commit info
-#                        header = x[:idx - 1].rstrip().lstrip()
-#                        ar[0].append(header + " " + commit.rstrip().lstrip())
-#                        involved_hit[hit] = 1
-#
+
     if should_include_person(author):
         # create a full commit record
         if diffpipe:
@@ -215,94 +180,14 @@ def add_commit(lines, added, removed, diffpipe):
         # total commit, total lines added, removed, commit rec, name
         ar = authors.setdefault(author, [0, 0, 0, [], short])
         commit = [[commit.rstrip().lstrip()], added, removed]
-        if options.commit_text:
-            for x in lines[5:]:
-                if x.startswith('diff --git') or x.startswith('--- '):
-                    break
-                if not is_tag(x):
-                    commit[0].append(x.rstrip().lstrip())
-            lines = len(commit[0])
-            while lines > 1:
-                if len(commit[0][lines - 1]) > 0:
-                    break
-                lines -= 1
-            commit[0] = commit[0][:lines]
-
+        
         ar[0] += 1
         ar[1] += added
         ar[2] += removed
         ar[3].append(commit)
        
 
-def add_commit2(lines, added, removed, diffpipe):
-    # we don't want any merge commits
-    if lines[1].startswith('Merge'):
-        return
 
-    sha = lines[0][7:]
-
-    orig_author = lines[1][8:].rstrip()
-    commit = lines[4]
-
-    author = orig_author.lower()
-    if options.other_commits:
-        # check for sob and other tags
-        for x in lines[6:]:
-            # break out when we hit the start of the diff
-            if x.startswith('+++ '):
-                break
-
-            if is_tag(x) and should_include_person(x):
-                # create an involved record for this commit
-                idx = x.find(':') + 2
-                orig_tag = x[idx:].rstrip()
-                tag = orig_tag.lower()
-
-                if tag != author:
-                    # don't add a SOB entry when we were also the author
-                    hit = sha + author
-                    if hit not in involved_hit:
-                        # ignore entries where someone signed and acked
-                        # or was generally there more than once
-                        ar = involved.setdefault(tag,
-                                             [[], name_from_email(orig_tag)])
-
-                        # pull out the type of tag and add it to the
-                        # commit info
-                        header = x[:idx - 1].rstrip().lstrip()
-                        ar[0].append(header + " " + commit.rstrip().lstrip())
-                        involved_hit[hit] = 1
-
-    if should_include_person(author):
-        # create a full commit record
-        if diffpipe:
-            for d in lines:
-                diffpipe.write(d)
-
-        short = name_from_email(orig_author)
-        if not options.full_name:
-            author = short
-
-        # total commit, total lines added, removed, commit rec, name
-        ar = authors.setdefault(author, [0, 0, 0, [], short])
-        commit = [[commit.rstrip().lstrip()], added, removed]
-        if options.commit_text:
-            for x in lines[5:]:
-                if x.startswith('diff --git') or x.startswith('--- '):
-                    break
-                if not is_tag(x):
-                    commit[0].append(x.rstrip().lstrip())
-            lines = len(commit[0])
-            while lines > 1:
-                if len(commit[0][lines - 1]) > 0:
-                    break
-                lines -= 1
-            commit[0] = commit[0][:lines]
-
-        ar[0] += 1
-        ar[1] += added
-        ar[2] += removed
-        ar[3].append(commit)
 
 # fire up diffstat, writing output to a temp file.  Return the
 # tmp file and the diffstat pipe.
@@ -397,18 +282,6 @@ def print_commits(commits):
             ar = sort[x]
             for c in ar:
                 commits.append(c)
-    elif options.sort_changed:
-        sort = {}
-        for commit in commits:
-            val = commit[1] + commit[2]
-            sort.setdefault(val, []).append(commit)
-        keys = sort.keys()
-        keys.sort()
-        commits = []
-        for x in keys.__reversed__():
-            ar = sort[x]
-            for c in ar:
-                commits.append(c)
     elif not options.no_sort:
         # the default is to sort based on the first word in the commit
         # description
@@ -457,10 +330,9 @@ def print_commits(commits):
 usage = "usage: %prog [options]"
 parser = OptionParser(usage=usage)
 
+parser.add_option("-R", "--revision", help="-r [--revision] arg (svn help log - for more details)", default="")
+parser.add_option("-b", "--stop-on-copy", help="do not cross copies while traversing history", default=False, action="store_true")
 
-parser.add_option("-a", "--all", help="Include all branches", default=False, action="store_true")
-parser.add_option("-C", "--sort-changed", help="Sort by lines changed",
-                  default=False, action="store_true")
 parser.add_option("-r", "--report-header", help="Report header", default="")
 parser.add_option("-f", "--full-name", help="Include full email in report",
                   default=False, action="store_true")
@@ -469,9 +341,6 @@ parser.add_option("-e", "--email", help="Email addresses of interest",
 parser.add_option("-E", "--email-file",
                   help="File with email addresses of interest",
                   default=None)
-parser.add_option("-o", "--other-commits",
-                  help="Print report of all commits, including Signed-off-by",
-                  default=False, action="store_true")
 parser.add_option("-n", "--no-commit-line-counts",
                   help="Don't print a line count for each commit",
                   default=False, action="store_true")
@@ -482,7 +351,6 @@ parser.add_option("-d", "--diffstat", help="Print diffstat",
 parser.add_option("-p", "--pipe",
                   help="Read from stdin instead of starting svn log",
                   default=False, action="store_true")
-parser.add_option("-s", "--since", help="--since flag for svn log", default="")
 parser.add_option("-i", "--ingo", help="Inverse xmas output",
                   default=False, action="store_true")
 parser.add_option("-l", "--limit", help="Limit output per person",
@@ -491,10 +359,10 @@ parser.add_option("-N", "--number-sort", help="Sort authors by number of commits
                   default=False, action="store_true")
 parser.add_option("-S", "--no-sort", help="Don't sort output",
                   default=False, action="store_true")
-parser.add_option("-c", "--commit-text", help="Print the full commit text",
-                  default=False, action="store_true")
 
 (options,args) = parser.parse_args()
+
+
 
 if options.version:
     sys.stderr.write("%s\n" % VERSION)
@@ -522,12 +390,13 @@ else:
 if not options.pipe:
     #svn_args = "-M --no-merges -p"
     svn_args = ""
-    if options.all:
-        #svn_args += " --all"
-        svn_args += ""
-    if options.since:
-        #svn_args += " --since=\"" + options.since + "\""
-        svn_args += ""
+    if options.revision:
+        svn_args += " -r "
+        svn_args += options.revision 
+    if options.stop_on_copy:
+        svn_args += " --stop-on-copy"
+
+ 
     input = run_svn_log(svn_args, args)
 else:
     input = sys.stdin
@@ -599,47 +468,6 @@ for x in names:
 
     print >> output, ""
 
-other_commits = 0
-
-if options.other_commits and involved:
-    print >> output, "============== Other involvement ==============\n"
-    keys = involved.keys()
-    keys.sort()
-    for x in keys:
-        ar = involved[x]
-        if options.full_name:
-            name = x
-        else:
-            name = ar[1]
-
-        print >> output, "%s (%d):" % (name, len(ar[0]))
-
-        other_commits += len(ar[0])
-        if options.ingo:
-            # print the longest strings first
-            sorted = {}
-            commits = ar[0]
-            for x in commits:
-                sorted.setdefault(len(x), []).append(x)
-            keys = sorted.keys()
-            keys.sort()
-            keys.reverse()
-            commits = []
-            for x in keys:
-                for c in sorted[x]:
-                    commits.append(c)
-        elif not options.no_sort:
-            # sort the text to group things
-            commits = ar[0]
-            commits.sort()
-        else:
-            commits = ar[0]
-
-        if options.limit:
-            commits = commits[:options.limit]
-        for commit in commits:
-            print >> output, "    %s" % commit
-        print >> output, ""
 
 if not options.diffstat:
     print >> output, "Total: (%d) commits (+%d/-%d)" % (total_commits,
