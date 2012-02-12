@@ -77,7 +77,6 @@ for file in $files; do
   ((linked++))
 done
 
-
 if [ -f $HOME/.gitlocal ]; then 
   echo "== [GIT] using local configuration"
   sed -i '' -e "/# GITLOCAL/r $HOME/.gitlocal" $HOME/.gitconfig
@@ -89,6 +88,12 @@ fi
 sed -i -e 's/^# GITLOCAL$//g' $HOME/.gitconfig
 
 echo -e
+ 
+if [ ! -f /usr/local/bin/brew ]; then
+    echo "== [BREW] installing"
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"
+    echo -e 
+fi
 
 if [ $do_rvm ]; then 
   if [ ! -f $HOME/.rvm/bin/rvm ]; then
