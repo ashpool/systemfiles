@@ -121,6 +121,9 @@ if [ $do_vim ]; then
   echo -e 
 fi
 
+# Make sure ssh file have the right permissions
+chmod 600 $HOME/.ssh/*
+
 echo "== [BASH] Reloading"
 source $HOME/.bash_profile
 echo -e
