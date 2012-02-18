@@ -14,3 +14,4 @@ add_path ${HADOOP_HOME}/bin
 add_path ${PIG_HOME}/bin
 add_path ${HIVE_HOME}/bin
 add_path ${MYSQL_HOME}/bin
+add_path ${JAVA_HOME}/bin

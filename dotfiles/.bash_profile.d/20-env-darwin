@@ -1,0 +1,5 @@
+if [ ${OSTYPE//[0-9.]/} != "darwin" ]; then
+    return
+fi
+
+export JAVA_HOME=/usr/java/jdk1.6.0_30

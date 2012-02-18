@@ -1,12 +1,14 @@
 #!/bin/bash
 
+os=${OSTYPE//[0-9.]/} #Strip off numbers because of darwin version number
+
 do_vim=true
 do_backup=true
 do_rvm=true
 
-while getopts ":nhb" opt; do
+while getopts ":vbrh" opt; do
   case $opt in
-    n)
+    v)
       unset do_vim
       ;;
     b)
@@ -18,8 +20,9 @@ while getopts ":nhb" opt; do
     h)
       echo "Usage: $0 <options>"
       echo -e "  -b\tSkip backups"
-      echo -e "  -n\tSkip vim bundle install"
+      echo -e "  -v\tSkip vim bundle install"
       echo -e "  -r\tSkip rvm install"
+      echo -e "  -h\t <- This ;-)"
       exit
       ;;
   esac
@@ -89,10 +92,12 @@ sed -i -e 's/^# GITLOCAL$//g' $HOME/.gitconfig
 
 echo -e
  
-if [ ! -f /usr/local/bin/brew ]; then
-    echo "== [BREW] installing"
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"
-    echo -e 
+if [ $os == "darwin" ]; then
+    if [ ! -f /usr/local/bin/brew ]; then
+        echo "== [BREW] installing"
+	    /usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"
+        echo -e 
+    fi
 fi
 
 if [ $do_rvm ]; then 
@@ -120,4 +125,3 @@ echo "== [BASH] Reloading"
 source $HOME/.bash_profile
 echo -e
 echo "$skipped skipped, $linked linked, $backedup backed up, $dircreated dirs created"
-
