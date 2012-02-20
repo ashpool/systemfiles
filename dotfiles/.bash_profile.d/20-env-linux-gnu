@@ -4,12 +4,12 @@ fi
 
 # Hadoop stuff
 #export HADOOP_VERSION=0.20.2+CDH3B4
-export HADOOP_HOME=/usr/lib/hadoop
-export HADOOP_CONF_DIR=$HADOOP_HOME/conf
-#export PIG_VERSION=0.8.0-CDH3B4
+export HADOOP_HOME=/usr/bin/hadoop
+export HADOOP_CONF_DIR=$HOME/hadoop-conf
+#export PIG_VERSION=0.8biCDH3B4
 #export PIG_HOME=~/bin/pig-$PIG_VERSION
 #export PIG_JAR=$PIG_HOME/pig-$PIG_VERSION.jar
 #export HIVE_HOME=/usr/local/hive
 
 # Java
-export JAVA_HOME=/usr/java/jdk1.6.0_30
+#export JAVA_HOME=/usr/java/jdk1.6.0_30
