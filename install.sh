@@ -103,7 +103,7 @@ fi
 if [ $do_rvm ]; then 
   if [ ! -f $HOME/.rvm/bin/rvm ]; then
     echo "== [RVM] installing"
-    bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
+    bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
     echo -e 
   fi
 fi
