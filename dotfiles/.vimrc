@@ -10,7 +10,6 @@ Bundle 'snipMate'
 Bundle 'vim-ruby/vim-ruby'
 Bundle "rails.vim"
 Bundle 'matchit.zip'
-Bundle 'tcomment'
 Bundle 'scrooloose/nerdtree'
 Bundle 'buftabs'
 Bundle 'scratch'
