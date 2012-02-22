@@ -2,18 +2,17 @@
 #exec 3>&2 2>/tmp/bashstart.$$.log
 #set -x
 
-#for module in $(find ~/.bash_profile.d ! -type d | sort); do
-#  source $module
-#done
+specific=".bash_system_specific"
 
-if [ -d ~/.bash_profile.d ]; then
-    for i in ~/.bash_profile.d/*; do
-        if [ -r $i ]; then
-            . $i
-        fi
-    done
-    unset i
+if [ ! -f ${specific} ]; then
+  touch $HOME/$specific
 fi
+
+source $HOME/$specific
+
+for module in $(find ~/.bash_profile.d ! -type d | sort); do
+  source $module
+done
 
 
 #set +x
