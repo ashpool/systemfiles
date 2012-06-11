@@ -95,7 +95,7 @@ echo -e
 if [ $os == "darwin" ]; then
     if [ ! -f /usr/local/bin/brew ]; then
         echo "== [BREW] installing"
-	    /usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"
+        /usr/bin/ruby -e "$(/usr/bin/curl -fsSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
         echo -e 
     fi
 fi
