@@ -5,7 +5,7 @@ set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
-Bundle 'molokai'
+Bundle 'Solarized'
 Bundle 'snipMate'
 Bundle 'vim-ruby/vim-ruby'
 Bundle "rails.vim"
@@ -56,7 +56,7 @@ autocmd FileType python setl shiftwidth=4 tabstop=4
 
 set background=dark
 try
-  colorscheme molokai
+  colorscheme solarized
 catch
   colorscheme default
 endtry
