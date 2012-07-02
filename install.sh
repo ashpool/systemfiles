@@ -5,6 +5,7 @@ os=${OSTYPE//[0-9.]/} #Strip off numbers because of darwin version number
 do_vim=true
 do_backup=true
 do_rvm=true
+do_brew=true
 
 while getopts ":vbrh" opt; do
   case $opt in
@@ -16,6 +17,9 @@ while getopts ":vbrh" opt; do
       ;;
     r)
       unset do_rvm
+      ;;
+    w)
+      unset do_brew
       ;;
     h)
       echo "Usage: $0 <options>"
@@ -91,13 +95,15 @@ fi
 sed -i -e 's/^# GITLOCAL$//g' $HOME/.gitconfig
 
 echo -e
- 
+
 if [ $os == "darwin" ]; then
+  if [ $do_brew ]; then
     if [ ! -f /usr/local/bin/brew ]; then
-        echo "== [BREW] installing"
-        /usr/bin/ruby -e "$(/usr/bin/curl -fsSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
-        echo -e 
+      echo "== [BREW] installing"
+      /usr/bin/ruby -e "$(/usr/bin/curl -fsSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
+      echo -e 
     fi
+  fi
 fi
 
 if [ $do_rvm ]; then 
