@@ -87,3 +87,5 @@ endtry
 nmap <silent> <leader>s :set nolist!<CR>
 let g:CommandTMatchWindowAtTop=1 " show window at top
 
+map <Esc><Esc> :w<CR>
+
