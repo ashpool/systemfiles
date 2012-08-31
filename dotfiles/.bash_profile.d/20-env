@@ -2,10 +2,7 @@
 export MYSQL_HOME=/usr/local/mysql
 
 # Misc exports
-export LSCOLORS="Fxgxcxdxbxegedabagacad"
-export MANPATH=/opt/local/share/man:$MANPATH
 export EDITOR='vim'
-export RSPEC=true
 
 # History
 export HISTCONTROL=ignoredups
