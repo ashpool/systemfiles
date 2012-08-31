@@ -1,5 +1,16 @@
 #!/bin/bash
 
+
+function usage() {
+  cat<<EOF
+Usage: $0 <options>
+  -b        Skip backups
+  -v        Skip vim bundle install
+  -r        Skip rvm install
+  -h        <- This ;-)
+EOF
+}
+
 os=${OSTYPE//[0-9.]/} #Strip off numbers because of darwin version number
 
 do_vim=true
@@ -22,11 +33,7 @@ while getopts ":vbrh" opt; do
       unset do_brew
       ;;
     h)
-      echo "Usage: $0 <options>"
-      echo -e "  -b\tSkip backups"
-      echo -e "  -v\tSkip vim bundle install"
-      echo -e "  -r\tSkip rvm install"
-      echo -e "  -h\t <- This ;-)"
+      usage
       exit
       ;;
   esac
