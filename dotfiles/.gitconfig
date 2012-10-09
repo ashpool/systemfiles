@@ -28,5 +28,5 @@
   ci = commit
   st = status
   unstage = reset HEAD --
-
+  timeline = log --pretty=format:'%h was %an, %ar, message: %s' --graph origin/master 
 # GITLOCAL
