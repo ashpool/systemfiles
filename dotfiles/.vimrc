@@ -1,91 +1,108 @@
-" vundler stuff
-set nocompatible
+"Vundle setup
+set nocompatible " viMproved.
 filetype off
-set rtp+=~/.vim/bundle/vundle
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" Bundles.
 Bundle 'gmarik/vundle'
-Bundle 'Solarized'
-Bundle 'snipMate'
-Bundle 'vim-ruby/vim-ruby'
-Bundle "rails.vim"
-Bundle 'matchit.zip'
+Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
-Bundle 'buftabs'
-Bundle 'scratch'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'scrooloose/syntastic'
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'flazz/vim-colorschemes'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'rstacruz/sparkup'
 Bundle 'tpope/vim-surround'
-Bundle 'taglist.vim'
-Bundle 'blueyed/vim-autoclose'
+Bundle 'vim-scripts/trailing-whitespace'
+Bundle 'Raimondi/YAIFA'
+Bundle 'Valloric/YouCompleteMe'
 
-filetype plugin indent on
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'skammer/vim-css-color'
+Bundle 'groenewege/vim-less'
 
-set autoindent
-set expandtab
-set hidden
-set hlsearch
-set ignorecase 
-set nowrap
-set number
-set ruler
-set scrolloff=3
-set shortmess=fiIlnxtToO
-set showcmd
-set showmode
-set sidescroll=1
-set smartcase
-set title
-set wildmenu
+Bundle 'airblade/vim-gitgutter'
+Bundle 'vim-scripts/taglist.vim'
 
-set tabstop=2
-set shiftwidth=2
-set smarttab
 
-set completeopt=preview
+filetype plugin indent on " required!
+" end Vundle setup
+
+if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
+ set t_Co=256
+endif
 
 syntax on
-filetype on
-filetype indent on
-filetype plugin on
-compiler ruby
+if has('gui_running')
+  set background=light
+else
+  set background=dark
+endif
 
-autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-autocmd FileType python setl shiftwidth=4 tabstop=4
+colorscheme solarized
 
-set background=dark
-try
-  colorscheme solarized
-catch
-  colorscheme default
-endtry
+" Leader
+let mapleader = ","
 
-set laststatus=2
-set statusline=
-set statusline+=%f\ " file name
-set statusline+=%h%1*%m%r%w%0* " flag
-set statusline+=%= " right align
-set statusline+=%-14.(%l,%c%V%)\ %<%P " offset
+" EDITOR SETTINGS
+set ignorecase          " case insensitive searching
+set smartcase           " but become case sensitive if you type uppercase characters
+" this can cause problems with other filetypes
+" see comment on this SO question http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim/234578#234578
+set smartindent         " smart auto indenting
+set autoindent          " on new lines, match indent of previous line
+set copyindent          " copy the previous indentation on autoindenting
+set cindent             " smart indenting for c-like code
+set cino=b1,g0,N-s,t0,(0,W4  " see :h cinoptions-values
+set smarttab            " smart tab handling for indenting
+set magic               " change the way backslashes are used in
+" search patterns
+set bs=indent,eol,start " Allow backspacing over everything in insert mode
+set nobackup            " no backup~ files.
+set smartindent
 
-let g:buftabs_in_statusline=1
-let g:buftabs_separator=":"
-let g:buftabs_marker_modified = "*"
-let mapleader=","
-let python_highlight_all=1
+" Better search
+set incsearch
+set ignorecase
+set smartcase
+" set hlsearch
+set nohlsearch
+nmap \q :nohlsearch<CR>
 
-noremap <leader>i mzgg=G''
-noremap <C-b> :bnext!<CR>
-noremap <C-l> :set invnumber<CR>
-noremap <C-i> ==j
+" Better background handling
+:nmap <C-e> :e#<CR>
 
-try
-  set listchars=tab:»\ ,trail:·,eol:¶
-catch
-endtry
 
-nmap <silent> <leader>s :set nolist!<CR>
-let g:CommandTMatchWindowAtTop=1 " show window at top
+" Easymotion
+let g:EasyMotion_leader_key = '<Leader>'
 
-map <Esc><Esc> :w<CR>
 
+" Map CtrlP buffer search to ;
+:nmap ; :CtrlPBuffer<CR>
+
+" Line numbers
+:set number
+
+" :let g:ctrlp_map = '<Leader>t'
+" :let g:ctrlp_match_window_bottom = 0
+" :let g:ctrlp_match_window_reversed = 0
+" :let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+" :let g:ctrlp_working_path_mode = 0
+" :let g:ctrlp_dotfiles = 0
+" :let g:ctrlp_switch_buffer = 0
+
+
+" :nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+" :nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
+" :nmap \M :set noexpandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
+" :nmap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+" " backup to ~/.tmp
+set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp
+set writebackup """ "
