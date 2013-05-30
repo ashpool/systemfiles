@@ -26,7 +26,8 @@ Bundle 'groenewege/vim-less'
 
 Bundle 'airblade/vim-gitgutter'
 Bundle 'vim-scripts/taglist.vim'
-
+" https://github.com/pangloss/vim-javascript
+Bundle "pangloss/vim-javascript"
 
 filetype plugin indent on " required!
 " end Vundle setup
@@ -94,6 +95,10 @@ let g:EasyMotion_leader_key = '<Leader>'
 " :let g:ctrlp_dotfiles = 0
 " :let g:ctrlp_switch_buffer = 0
 
+" Config for "pangloss/vim-javascript"
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
 
 " :nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 " :nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
