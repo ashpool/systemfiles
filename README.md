@@ -8,10 +8,13 @@ Organized systemfiles ready to go on OS X (Lion) and Linux (Ubuntu).
     -w  Skip brew install (when on OS X)
     -h  Help!
 
-## Prerequisites (OS X)
+## Prerequisites 
+### OS X
 Xcode https://developer.apple.com/xcode/
 Command Line Tools for Xcode https://developer.apple.com/downloads/index.action#
 
+### Ubuntu
+None
 
 
 Credits to Wouter who's code I forked.
