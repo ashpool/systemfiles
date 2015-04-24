@@ -4,6 +4,9 @@ function start_agent {
      chmod 600 "${SSH_ENV}"
      . "${SSH_ENV}" > /dev/null
      /usr/bin/ssh-add
+     /usr/bin/ssh-add ~/.ssh/id_rsa4096_github
+     /usr/bin/ssh-add ~/.ssh/id_rsa4096_github_schibsted_io
+     /usr/bin/ssh-add -l
 }
 
 SSH_ENV="$HOME/.ssh/environment"

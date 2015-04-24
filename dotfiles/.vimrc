@@ -18,7 +18,6 @@ Bundle 'rstacruz/sparkup'
 Bundle 'tpope/vim-surround'
 Bundle 'vim-scripts/trailing-whitespace'
 Bundle 'Raimondi/YAIFA'
-Bundle 'Valloric/YouCompleteMe'
 
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'skammer/vim-css-color'

@@ -1,2 +1,4 @@
 backups
 *.swp
+dotfiles/.ssh/config
+dotfiles/.ssh/config_copy
